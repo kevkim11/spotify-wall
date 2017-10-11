@@ -2,8 +2,6 @@ import React, { Component } from 'react'
 import Square from '../components/Square.js'
 import accessToken from '../spotify-api/spotify-api.js'
 
-import SpotifyWebApi from 'spotify-web-api-node'
-
 class TopTracks extends Component {
   constructor(props){
     super(props);
@@ -14,19 +12,6 @@ class TopTracks extends Component {
     this.numOfSquare = 36
   }
 
-  // componentWillMount() {
-  //   var credentials = {
-  //     clientId : 'someClientId',
-  //     clientSecret : 'someClientSecret',
-  //     redirectUri : 'http://www.michaelthelin.se/test-callback'
-  //   };
-  //
-  //   var spotifyApi = new SpotifyWebApi(credentials);
-  //
-  //   // The code that's returned as a query parameter to the redirect URI
-  //   var code = 'MQCbtKe23z7YzzS44KzZzZgjQa621hgSzHN';
-  //
-  // }
 
   componentDidMount() {
     // Global Variables

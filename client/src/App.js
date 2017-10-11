@@ -26,15 +26,41 @@ class App extends Component {
     };
   }
 
-  // getTokens() {
-  //   fetch('/server.js')
-  //     .then(res => res.json())
-  //     .then(tokens => this.setState({ accessToken: tokens.access_token }));
-  // }
+  getTokens() {
+    fetch('/api/spotify')
+      // .then(res => res.json())
+      .then(response => {
+        // if(response.status===401) {
+        //   // reset
+        //   console.log("response is 401!!!!");
+        // }
+        console.log(response);
+        if(!response.ok){
+          console.log(response);
+          throw Error("Request to Spotify failed")
+          // this.refreshToken();
+        }
+        // console.log(response);
+        return response
+      })
+      .then(response => {
+        // console.log(response.json());
+        return response.json();
+      })
+      // .then(tokens => this.setState({ accessToken: tokens.access_token }));
+      .then(token => {
+        console.log(token[0].accessToken);
+        this.setState({ accessToken: token[0].accessToken})
+      });
+  }
 
   // componentWillMount() {
   //   this.getTokens()
   // }
+
+  componentDidMount() {
+    this.getTokens()
+  }
 
   // componentDidMount() {
   //   // Why fetch in componentDidMount --> https://daveceddia.com/where-fetch-data-componentwillmount-vs-componentdidmount/
@@ -49,10 +75,13 @@ class App extends Component {
   }
 
   render() {
-    var currentSpotifyFilter = 1;
-
+    var currentSpotifyFilter;
+    //   console.log(`this.state.accessToken: ${this.state.accessToken}`);
+    // currentSpotifyFilter = <RecentlyPlayed accessToken={this.state.accessToken}/>
     if(this.state.currentFilter === 1){
-      currentSpotifyFilter = <RecentlyPlayed />
+      console.log(`this.state.accessToken: ${this.state.accessToken}`);
+      console.log(this.state);
+      currentSpotifyFilter = <RecentlyPlayed accessToken={this.state.accessToken}/>
     }
     if(this.state.currentFilter === 2){
       currentSpotifyFilter = <TopTracks />
@@ -83,15 +112,6 @@ class App extends Component {
             </div>
           </div>
           <div className="main-content">
-            {/*<RecentlyPlayed />*/}
-            {/*<div>*/}
-            {/*------------------------------------------------------------------------------------------------*/}
-            {/*</div>*/}
-            {/*<TopTracks />*/}
-            {/*<div>*/}
-            {/*------------------------------------------------------------------------------------------------*/}
-            {/*</div>*/}
-            {/*<TopArtists/>*/}
             {currentSpotifyFilter}
           </div>
         </div>

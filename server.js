@@ -36,8 +36,8 @@ var tokenExpirationEpoch;
 app.get('/', (req, res) => {
   // When our access token will expire
   let authorizeURL = spotifyApi.createAuthorizeURL(scopes, state, false);
-// console.log(authorizeURL);
-res.redirect(authorizeURL)
+  console.log(authorizeURL);
+  res.redirect(authorizeURL);
 });
 
 app.get('/callback', function(req, res) {
@@ -45,6 +45,8 @@ app.get('/callback', function(req, res) {
   console.log(req);
   var code = req.query.code || null;
   var state = req.query.state || null;
+
+  // var code = 'AQCkP3fMYAs-95ObJFoFh5hh2Eg0bmhvLnLFRzrXcqXX7m7xjcYsyJNcarf7AG8vxrFLhO2kXmT-6s-yRq1UNsekRRCPBMRYrQd3SrJC00z9ewglfShGgrfHZSRvBhY5P_tRAjep0LA8nQ_UP4a4VpJGdrvsUxTZHwwqpBnM_ZAY1lYOBzeaznNPx0qMh8uMZN-5AVkJgTXpuZVQAcEeNmcsx7yOQKO5N_V-PodXL1nZY3ez2KCT_xGgootymD2ol4uNsxo_mrpEFvr5oUaBgLFpgIXI2fY7DccZxCfskUo4xWrqziJ-_jmthDViNGwbHkwxq9kB'
   console.log("@@@@@@@@@@@@@");
   console.log(code);
   spotifyApi.authorizationCodeGrant(code)
@@ -62,26 +64,33 @@ app.get('/callback', function(req, res) {
     }, function(err) {
       console.log('Something went wrong when retrieving the access token!', err.message);
     });
+});
 
-  var timePassed = 0;
-  // setInterval(function(){
-  //   console.log('Time left: ' + Math.floor((tokenExpirationEpoch - new Date().getTime() / 1000)) + ' seconds left!');
-  //   if(timePassed > 5) {
-  //     timePassed = 0;
-  //     console.log(`access token: ${spotifyApi.getAccessToken()}`);
-  //     console.log(`refresh token: ${spotifyApi.getRefreshToken()}`);
-  //     spotifyApi.refreshAccessToken()
-  //       .then(function(data) {
-  //         console.log('The access token has been refreshed!');
-  //
-  //         // Save the access token so that it's used in future calls
-  //         spotifyApi.setAccessToken(data.body['access_token']);
-  //       }, function(err) {
-  //         console.log('Could not refresh access token', err);
-  //       });
-  //   }
-  //   timePassed += 1;
-  // }, 1000);
+
+var timePassed = 0;
+setInterval(function(){
+  console.log('Time left: ' + Math.floor((tokenExpirationEpoch - new Date().getTime() / 1000)) + ' seconds left!');
+  if(timePassed > 60) {
+    timePassed = 0;
+    console.log(`access token: ${spotifyApi.getAccessToken()}`);
+    console.log(`refresh token: ${spotifyApi.getRefreshToken()}`);
+    spotifyApi.refreshAccessToken()
+      .then(function(data) {
+        console.log('The access token has been refreshed!');
+
+        // Save the access token so that it's used in future calls
+        spotifyApi.setAccessToken(data.body['access_token']);
+      }, function(err) {
+        console.log('Could not refresh access token', err);
+      });
+  }
+  timePassed += 1;
+}, 1000);
+
+app.get('/api/spotify', (req, res) => {
+  let accessToken = spotifyApi.getAccessToken();
+  console.log(`CURRENT ACCESSTOKEN: ${accessToken}`);
+  res.json([{accessToken}]);
 });
 
 // The "catchall" handler: for any request that doesn't
