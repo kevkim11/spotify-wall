@@ -16,7 +16,6 @@ const app = express();
 const port = process.env.PORT || 8888;
 
 // Serve static files from the React app
-app.use(express.static(path.join(__dirname, 'client/build')));
 
 var spotifyApi = new SpotifyWebApi(credentials);
 var tokenExpirationEpoch;
@@ -42,10 +41,14 @@ app.get('/callback', function(req, res) {
       // Save the amount of seconds until the access token expired
       tokenExpirationEpoch = (new Date().getTime() / 1000) + data.body['expires_in'];
       // Send data to the client.
-      res.json(data);
+      // res.json(data);
       console.log('Retrieved token. It expires in ' + Math.floor(tokenExpirationEpoch - new Date().getTime() / 1000) + ' seconds!');
     }, function(err) {
       console.log('Something went wrong when retrieving the access token!', err.message);
+    })
+    .then(function(){
+      console.log("2nd then!!!!!");
+      res.redirect(path.join(__dirname+'/client/build/index.html'));
     });
 });
 
@@ -84,6 +87,7 @@ setInterval(function(){
   timePassed += 1;
 }, 1000);
 
+app.use(express.static(path.join(__dirname, 'client/build')));
 // The "catchall" handler: for any request that doesn't
 // match one above, send back React's index.html file.
 app.get('*', (req, res) => {
