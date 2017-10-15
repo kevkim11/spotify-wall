@@ -13,6 +13,8 @@ let scopes = ['user-read-private', 'user-read-email', 'user-library-read', 'user
   state = 'some-state-of-my-choice';
 const app = express();
 
+const port = process.env.PORT || 8888;
+
 // Serve static files from the React app
 app.use(express.static(path.join(__dirname, 'client/build')));
 
@@ -25,7 +27,6 @@ app.get('/', (req, res) => {
   console.log(authorizeURL);
   res.redirect(authorizeURL);
 });
-
 // 1) Need to first GET an access and refresh token. Then can use the refresh token to obtain new access token when
 //    the access token expires (which is 3600 sec or one hour)
 app.get('/callback', function(req, res) {
@@ -48,12 +49,22 @@ app.get('/callback', function(req, res) {
     });
 });
 
-// 2) setInterval function to get a new access token using the refresh token when access token expires.
+// 2) url to get the AccessToken from the server.
+app.get('/api/spotify', (req, res) => {
+  let accessToken = spotifyApi.getAccessToken();
+  console.log(`CURRENT ACCESSTOKEN: ${accessToken}`);
+  res.json([{accessToken}]);
+});
+
+// 3) setInterval function to get a new access token using the refresh token when access token expires.
 //    https://developer.spotify.com/web-api/authorization-guide/
 let timePassed = 0;
 setInterval(function(){
   console.log('Time left: ' + Math.floor((tokenExpirationEpoch - new Date().getTime() / 1000)) + ' seconds left!');
-  if(timePassed > tokenExpirationEpoch) {
+  // console.log(`timePassed = ${timePassed}`);
+  // console.log(`tokenExpirationEpoch = ${tokenExpirationEpoch}`);
+  // if(timePassed > 10) {
+  if(Math.floor((tokenExpirationEpoch - new Date().getTime() / 1000)) <= 0){
     timePassed = 0;
     console.log(`access token: ${spotifyApi.getAccessToken()}`);
     console.log(`refresh token: ${spotifyApi.getRefreshToken()}`);
@@ -73,19 +84,12 @@ setInterval(function(){
   timePassed += 1;
 }, 1000);
 
-app.get('/api/spotify', (req, res) => {
-  let accessToken = spotifyApi.getAccessToken();
-  console.log(`CURRENT ACCESSTOKEN: ${accessToken}`);
-  res.json([{accessToken}]);
-});
-
 // The "catchall" handler: for any request that doesn't
 // match one above, send back React's index.html file.
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname+'/client/build/index.html'));
 });
 
-const port = process.env.PORT || 8888;
 app.listen(port);
 
 console.log(`spotify-wall-server listening on ${port}`);

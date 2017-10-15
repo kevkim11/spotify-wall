@@ -1,11 +1,6 @@
 import React, { Component } from 'react'
 import Square from '../components/Square.js'
 
-// import accessToken from '../spotify-api/spotify-api.js'
-
-// import SpotifyWebApi from 'spotify-web-api-node'
-
-
 class RecentlyPlayed extends Component {
   constructor(props){
     super(props);
@@ -24,7 +19,7 @@ class RecentlyPlayed extends Component {
     // 2) GET recently-played using fetch
     const BASE_URL = 'https://api.spotify.com/v1/me/'; //https://api.spotify.com/v1/albums/
     const FETCH_URL = BASE_URL + `player/recently-played?limit=${this.numOfSquare}`;
-    var myOptions = {
+    let myOptions = {
       method: 'GET',
       headers: {
         'Authorization': 'Bearer ' + nextProps.accessToken
@@ -57,7 +52,7 @@ class RecentlyPlayed extends Component {
     // Global Variables
     const BASE_URL = 'https://api.spotify.com/v1/me/'; //https://api.spotify.com/v1/albums/
     const FETCH_URL = BASE_URL + `player/recently-played?limit=${this.numOfSquare}`;
-    var myOptions = {
+    let myOptions = {
       method: 'GET',
       headers: {
         'Authorization': 'Bearer ' + this.props.accessToken

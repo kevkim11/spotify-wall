@@ -31,7 +31,7 @@ class App extends Component {
       .then(response => {
         if(!response.ok){
           console.log(response);
-          throw Error("Request to api/spotify failed")
+          throw Error("Request to /api/spotify failed")
         }
         return response
       })
@@ -39,7 +39,6 @@ class App extends Component {
         return response.json();
       })
       .then(token => {
-        console.log(token[0].accessToken);
         this.setState({ accessToken: token[0].accessToken})
       }).catch(function(error) {
       console.log('There has been a problem with your fetch operation: ' + error.message);
@@ -87,7 +86,6 @@ class App extends Component {
           </div>
         </div>
         <div className="app-wrapper">
-          {/*<Nav/>*/}
           <div className="main-content">
             {currentSpotifyFilter}
           </div>
