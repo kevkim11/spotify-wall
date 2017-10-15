@@ -11,6 +11,10 @@ let scopes = ['user-read-private', 'user-read-email', 'user-library-read', 'user
 const app = express();
 const dev = app.get('env') !== 'production'; // so test or development environment
 
+
+// change the redirectURL depending on production or development environment
+let redirectURL;
+
 // Production setting
 if(!dev) {
   redirectURL = 'https://spotify-wall.herokuapp.com/callback/';
@@ -24,9 +28,6 @@ if(!dev) {
     res.sendFile(path.resolve(__dirname,'build', 'index.html'))
   })
 }
-
-// change the redirectURL depending on production or development environment
-let redirectURL;
 // Development settings
 if(dev){
   redirectURL = 'http://localhost:8888/callback/';
