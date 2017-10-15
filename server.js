@@ -23,7 +23,7 @@ if(!dev) {
   app.use(morgan('common'));
   // The production static files will be in the build directory of the react app
   // app.use(express.static(path.resolve(__dirname, 'build')));
-  app.use(express.static(path.join(__dirname, 'client/build')));
+  app.use(express.static(path.join(__dirname, 'client/build/static')));
   // on every request that comes in.
   app.get('*', (req, res) =>{
     res.sendFile(path.join(__dirname, '/client/build/index.html'))
