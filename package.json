@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start" : "node server.js"
+    "start": "node server.js"
   },
   "repository": {
     "type": "git",
@@ -18,7 +18,10 @@
   },
   "homepage": "https://github.com/kevkim11/spotify-wall#readme",
   "dependencies": {
+    "compression": "^1.7.1",
     "express": "^4.16.2",
+    "morgan": "^1.9.0",
+    "path": "^0.12.7",
     "spotify-web-api-node": "^2.5.0"
   }
 }

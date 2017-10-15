@@ -1,18 +1,44 @@
 const express = require('express');
 const path = require('path');
+const morgan = require('morgan');
+const compression = require('compression');
+
 var SpotifyWebApi = require('spotify-web-api-node');
 
+
+let scopes = ['user-read-private', 'user-read-email', 'user-library-read', 'user-top-read', 'user-read-recently-played'],
+  state = 'some-state-of-my-choice';
+const app = express();
+const dev = app.get('env') !== 'production'; // so test or development environment
+
+// Production setting
+if(!dev) {
+  redirectURL = 'https://spotify-wall.herokuapp.com/callback/';
+  app.disable('x-powered-by');
+  app.use(compression());
+  app.use(morgan('common'));
+  // The production static files will be in the build directory of the react app
+  app.use(express.static(path.resolve(__dirname, 'build')));
+  // on every request that comes in.
+  app.get('*', (req, res) =>{
+    res.sendFile(path.resolve(__dirname,'build', 'index.html'))
+  })
+}
+
+// change the redirectURL depending on production or development environment
+let redirectURL;
+// Development settings
+if(dev){
+  redirectURL = 'http://localhost:8888/callback/';
+  app.use(morgan('dev'))
+}
 
 let credentials = {
   clientId : 'e55391b719e94dc78334fcdb648cdec6',
   clientSecret : 'a9349597d37b4e3382662df64cffb3d9',
   // redirectUri : 'http://localhost:8888/callback/',
-  redirectUri: 'https://spotify-wall.herokuapp.com/callback/'
+  redirectUri: redirectURL
 };
-
-let scopes = ['user-read-private', 'user-read-email', 'user-library-read', 'user-top-read', 'user-read-recently-played'],
-  state = 'some-state-of-my-choice';
-const app = express();
 
 const port = process.env.PORT || 8888;
 
