@@ -7,7 +7,7 @@ let credentials = {
   clientId : 'e55391b719e94dc78334fcdb648cdec6',
   clientSecret : 'a9349597d37b4e3382662df64cffb3d9',
   // redirectUri : 'http://localhost:8888/callback/',
-  redirectUri: 'https://spotify-wall.herokuapp.com/'
+  redirectUri: 'https://spotify-wall.herokuapp.com/callback/'
 };
 
 let scopes = ['user-read-private', 'user-read-email', 'user-library-read', 'user-top-read', 'user-read-recently-played'],
