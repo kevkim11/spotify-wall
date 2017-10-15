@@ -121,9 +121,9 @@ app.use(express.static(path.join(__dirname, '/client/build')));
 // match one above, send back React's index.html file.
 
 app.use('/dist', express.static(path.join(__dirname, 'dist')));
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname+'/client/build/index.html'));
-});
+// app.get('*', (req, res) => {
+//   res.sendFile(path.join(__dirname+'/client/build/index.html'));
+// });
 
 app.listen(port);
 
