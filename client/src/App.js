@@ -45,9 +45,6 @@ class App extends Component {
       console.log('There has been a problem with your fetch operation: ' + error.message);
     });
   }
-  // componentWillMount() {
-  //   this.getTokens()
-  // }
 
   componentDidMount() {
     this.getTokens()
@@ -70,26 +67,27 @@ class App extends Component {
     }
     return (
       <div className="app">
-        <div className="app-header"> </div>
-        <div className="app-wrapper">
-          {/*<Nav/>*/}
+        <div className="app-header">
           <div className="app-nav">
             <div
               className={this.state.currentFilter === 1 ? "nav-item screen1 activeItem" : "nav-item screen1"}
               onClick={(e)=>{this.updateScreen(1)}}>
-              <p>Recently Played</p>
+              <span>Recently Played</span>
             </div>
             <div
               className={this.state.currentFilter === 2 ? "nav-item screen2 activeItem" : "nav-item screen2"}
               onClick={(e)=>{this.updateScreen(2)}}>
-              <p>Top Tracks</p>
+              <span>Top Tracks</span>
             </div>
             <div
               className={this.state.currentFilter === 3 ? "nav-item screen3 activeItem" : "nav-item screen3"}
               onClick={(e)=>{this.updateScreen(3)}}>
-              <p>Top Artists</p>
+              <span>Top Artists</span>
             </div>
           </div>
+        </div>
+        <div className="app-wrapper">
+          {/*<Nav/>*/}
           <div className="main-content">
             {currentSpotifyFilter}
           </div>
