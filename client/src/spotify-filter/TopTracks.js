@@ -7,20 +7,59 @@ class TopTracks extends Component {
     super(props);
     this.state = {
       currentItemList: [],
-      requestFailed: false
+      requestFailed: false,
+      accessToken: ""
     };
     this.numOfSquare = 36
   }
 
+  componentWillReceiveProps(nextProps) {
+    // 1) Set state to nextProps.accessToken. State passed down from App
+    console.log(nextProps);
+    this.setState({accessToken: nextProps.accessToken});
+    console.log("!@#@$!@#!@!#@!@#!@");
+    console.log(nextProps.accessToken);
 
-  componentDidMount() {
-    // Global Variables
+    // 2) GET recently-played using fetch
     const BASE_URL = 'https://api.spotify.com/v1/me/'; //https://api.spotify.com/v1/albums/
-    const FETCH_URL = BASE_URL + 'top/tracks?limit=' + this.numOfSquare //+ '&time_range=' + this.time_range;
+    const FETCH_URL = BASE_URL + `top/tracks?limit=${this.numOfSquare}`;
+
     var myOptions = {
       method: 'GET',
       headers: {
-        'Authorization': 'Bearer ' + accessToken
+        'Authorization': 'Bearer ' + nextProps.accessToken
+      },
+      mode: 'cors',
+      cache: 'default'
+    };
+    fetch(FETCH_URL, myOptions)
+      .then(response => {
+        if(!response.ok){
+          console.log(response);
+          throw Error("Request to Spotify failed")
+        }
+        return response
+      })
+      .then(response => response.json())
+      .then(json => {
+        console.log(json);
+        const songList = json.items;
+        this.setState({currentItemList: songList});
+        this.setState({requestFailed: false});
+      }, () => {
+        this.setState({
+          requestFailed: true
+        })
+      })
+  }
+  componentDidMount() {
+    // Global Variables
+    const BASE_URL = 'https://api.spotify.com/v1/me/'; //https://api.spotify.com/v1/albums/
+    const FETCH_URL = BASE_URL + `top/tracks?limit=${this.numOfSquare}`;
+    var myOptions = {
+      method: 'GET',
+      headers: {
+        'Authorization': 'Bearer ' + this.props.accessToken
       },
       mode: 'cors',
       cache: 'default'
@@ -38,6 +77,7 @@ class TopTracks extends Component {
         console.log(json);
         const songList = json.items;
         this.setState({currentItemList: songList});
+        this.setState({requestFailed: false});
       }, () => {
         this.setState({
           requestFailed: true
@@ -52,7 +92,7 @@ class TopTracks extends Component {
       )
     });
     if(this.state.requestFailed){return <p> {'Failed!'} </p>}
-    if(this.state.currentItemList.length === 0){return <p> {'loading...'} </p>}
+    if(this.state.currentItemList.length === 0){return <p> {'loading...2'} </p>}
     return (
       <div className="flex-container wrap">
         {itemNodes}

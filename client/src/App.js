@@ -28,32 +28,23 @@ class App extends Component {
 
   getTokens() {
     fetch('/api/spotify')
-      // .then(res => res.json())
       .then(response => {
-        // if(response.status===401) {
-        //   // reset
-        //   console.log("response is 401!!!!");
-        // }
-        console.log(response);
         if(!response.ok){
           console.log(response);
-          throw Error("Request to Spotify failed")
-          // this.refreshToken();
+          throw Error("Request to api/spotify failed")
         }
-        // console.log(response);
         return response
       })
       .then(response => {
-        // console.log(response.json());
         return response.json();
       })
-      // .then(tokens => this.setState({ accessToken: tokens.access_token }));
       .then(token => {
         console.log(token[0].accessToken);
         this.setState({ accessToken: token[0].accessToken})
-      });
+      }).catch(function(error) {
+      console.log('There has been a problem with your fetch operation: ' + error.message);
+    });
   }
-
   // componentWillMount() {
   //   this.getTokens()
   // }
@@ -62,32 +53,20 @@ class App extends Component {
     this.getTokens()
   }
 
-  // componentDidMount() {
-  //   // Why fetch in componentDidMount --> https://daveceddia.com/where-fetch-data-componentwillmount-vs-componentdidmount/
-  //   // console.log('this.state', this.state);
-  //   setInterval(function(){
-  //     this.getTokens()
-  //   }, 3000)
-  // }
-
   updateScreen(newCurrentScreen) {
     this.setState({currentFilter: newCurrentScreen})
   }
 
   render() {
     var currentSpotifyFilter;
-    //   console.log(`this.state.accessToken: ${this.state.accessToken}`);
-    // currentSpotifyFilter = <RecentlyPlayed accessToken={this.state.accessToken}/>
     if(this.state.currentFilter === 1){
-      console.log(`this.state.accessToken: ${this.state.accessToken}`);
-      console.log(this.state);
       currentSpotifyFilter = <RecentlyPlayed accessToken={this.state.accessToken}/>
     }
     if(this.state.currentFilter === 2){
-      currentSpotifyFilter = <TopTracks />
+      currentSpotifyFilter = <TopTracks accessToken={this.state.accessToken}/>
     }
     if(this.state.currentFilter === 3){
-      currentSpotifyFilter = <TopArtists/>
+      currentSpotifyFilter = <TopArtists accessToken={this.state.accessToken}/>
     }
     return (
       <div className="app">
@@ -121,37 +100,37 @@ class App extends Component {
 }
 export default App;
 
-class Wall extends Component {
-  constructor(props) {
-    super(props);
-    // this.state = {
-    //   currentItemList: props.itemList,
-    // };
-    // let itemList = props.itemList
-    // this.numOfSquare = 30; //numOfAlbums to retrieve. Max=50
-    // this.time_range = 'short_term'
-  }
-
-  // componentDidMount(props) {
-  //   // Why fetch in componentDidMount --> https://daveceddia.com/where-fetch-data-componentwillmount-vs-componentdidmount/
-  //   // console.log('this.state', this.state);
-  //   var accessToken = 'BQAJktMR5guiXK0Da2GYZ5cEQvQhX3fVLiwQaymx90peOuT5dpqABNfIBs4ZpZw0ousMk26_ulkoQyr2Kr8j3BguL1Pvvofd3RbrWMP68C46eBRkfC-I_zOh5qPatVfog8Zd6b4Wqfba1hHWNxkF47HYa-4r4D9rsy8sbowpfdGA-cGrzLc&refresh_token=AQC3Cv2BAO1TqIyhSWQ6ojjqwH3hRxT-8URgsRzPXUf8E5pYqmFSBuH5EUFuPtb2M-KGenc-9pkcViKpGxKJDfiJ2S8mOUypVgCCS2tcCQtxvgEbQh7gYpJBER-ic4OJaxE';
-  //   // this.getUserSongs(accessToken)
-  //   // this.getUserAlbums(accessToken)
-  //   this.getUserTopTracks(accessToken)
-  // }
-
-  render() {
-    let itemNodes = this.props.itemList.map((item, i) => {
-      return (
-        <Square item={item} key={i}/>
-      )
-    });
-    if(this.props.itemList.length === 0){return <p> {'loading...'} </p>}
-    return (
-      <div className="flex-container wrap">
-        {itemNodes}
-      </div>
-    )
-  }
-}
+// class Wall extends Component {
+//   constructor(props) {
+//     super(props);
+//     // this.state = {
+//     //   currentItemList: props.itemList,
+//     // };
+//     // let itemList = props.itemList
+//     // this.numOfSquare = 30; //numOfAlbums to retrieve. Max=50
+//     // this.time_range = 'short_term'
+//   }
+//
+//   // componentDidMount(props) {
+//   //   // Why fetch in componentDidMount --> https://daveceddia.com/where-fetch-data-componentwillmount-vs-componentdidmount/
+//   //   // console.log('this.state', this.state);
+//   //   var accessToken = 'BQAJktMR5guiXK0Da2GYZ5cEQvQhX3fVLiwQaymx90peOuT5dpqABNfIBs4ZpZw0ousMk26_ulkoQyr2Kr8j3BguL1Pvvofd3RbrWMP68C46eBRkfC-I_zOh5qPatVfog8Zd6b4Wqfba1hHWNxkF47HYa-4r4D9rsy8sbowpfdGA-cGrzLc&refresh_token=AQC3Cv2BAO1TqIyhSWQ6ojjqwH3hRxT-8URgsRzPXUf8E5pYqmFSBuH5EUFuPtb2M-KGenc-9pkcViKpGxKJDfiJ2S8mOUypVgCCS2tcCQtxvgEbQh7gYpJBER-ic4OJaxE';
+//   //   // this.getUserSongs(accessToken)
+//   //   // this.getUserAlbums(accessToken)
+//   //   this.getUserTopTracks(accessToken)
+//   // }
+//
+//   render() {
+//     let itemNodes = this.props.itemList.map((item, i) => {
+//       return (
+//         <Square item={item} key={i}/>
+//       )
+//     });
+//     if(this.props.itemList.length === 0){return <p> {'loading...'} </p>}
+//     return (
+//       <div className="flex-container wrap">
+//         {itemNodes}
+//       </div>
+//     )
+//   }
+// }

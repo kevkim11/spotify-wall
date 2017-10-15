@@ -3,11 +3,12 @@ const path = require('path');
 var SpotifyWebApi = require('spotify-web-api-node');
 
 
-var credentials = {
+let credentials = {
   clientId : 'e55391b719e94dc78334fcdb648cdec6',
   clientSecret : 'a9349597d37b4e3382662df64cffb3d9',
   redirectUri : 'http://localhost:8888/callback/',
 };
+
 let scopes = ['user-read-private', 'user-read-email', 'user-library-read', 'user-top-read', 'user-read-recently-played'],
   state = 'some-state-of-my-choice';
 const app = express();
@@ -15,24 +16,9 @@ const app = express();
 // Serve static files from the React app
 app.use(express.static(path.join(__dirname, 'client/build')));
 
-// Put all API endpoints under '/api'
-// app.get('/api/tokens', (req, res) => {
-//   const count = 5;
-//
-//   // Generate some passwords
-//   const passwords = Array.from(Array(count).keys()).map(i =>
-//     generatePassword(12, false)
-//   )
-//
-//   // Return them as json
-//   res.json(passwords);
-//
-//   console.log(`Sent ${count} passwords`);
-// });
-
-
 var spotifyApi = new SpotifyWebApi(credentials);
 var tokenExpirationEpoch;
+
 app.get('/', (req, res) => {
   // When our access token will expire
   let authorizeURL = spotifyApi.createAuthorizeURL(scopes, state, false);
@@ -40,46 +26,46 @@ app.get('/', (req, res) => {
   res.redirect(authorizeURL);
 });
 
+// 1) Need to first GET an access and refresh token. Then can use the refresh token to obtain new access token when
+//    the access token expires (which is 3600 sec or one hour)
 app.get('/callback', function(req, res) {
   console.log("!!!!!!!!!!!!!");
   console.log(req);
-  var code = req.query.code || null;
-  var state = req.query.state || null;
-
-  // var code = 'AQCkP3fMYAs-95ObJFoFh5hh2Eg0bmhvLnLFRzrXcqXX7m7xjcYsyJNcarf7AG8vxrFLhO2kXmT-6s-yRq1UNsekRRCPBMRYrQd3SrJC00z9ewglfShGgrfHZSRvBhY5P_tRAjep0LA8nQ_UP4a4VpJGdrvsUxTZHwwqpBnM_ZAY1lYOBzeaznNPx0qMh8uMZN-5AVkJgTXpuZVQAcEeNmcsx7yOQKO5N_V-PodXL1nZY3ez2KCT_xGgootymD2ol4uNsxo_mrpEFvr5oUaBgLFpgIXI2fY7DccZxCfskUo4xWrqziJ-_jmthDViNGwbHkwxq9kB'
-  console.log("@@@@@@@@@@@@@");
-  console.log(code);
+  let code = req.query.code || null;
+  // var state = req.query.state || null;
   spotifyApi.authorizationCodeGrant(code)
     .then(function(data) {
-
       // Set the access token and refresh token
       spotifyApi.setAccessToken(data.body['access_token']);
       spotifyApi.setRefreshToken(data.body['refresh_token']);
-
-      res.json(data);
-
       // Save the amount of seconds until the access token expired
       tokenExpirationEpoch = (new Date().getTime() / 1000) + data.body['expires_in'];
+      // Send data to the client.
+      res.json(data);
       console.log('Retrieved token. It expires in ' + Math.floor(tokenExpirationEpoch - new Date().getTime() / 1000) + ' seconds!');
     }, function(err) {
       console.log('Something went wrong when retrieving the access token!', err.message);
     });
 });
 
-
-var timePassed = 0;
+// 2) setInterval function to get a new access token using the refresh token when access token expires.
+//    https://developer.spotify.com/web-api/authorization-guide/
+let timePassed = 0;
 setInterval(function(){
   console.log('Time left: ' + Math.floor((tokenExpirationEpoch - new Date().getTime() / 1000)) + ' seconds left!');
-  if(timePassed > 60) {
+  if(timePassed > tokenExpirationEpoch) {
     timePassed = 0;
     console.log(`access token: ${spotifyApi.getAccessToken()}`);
     console.log(`refresh token: ${spotifyApi.getRefreshToken()}`);
     spotifyApi.refreshAccessToken()
       .then(function(data) {
         console.log('The access token has been refreshed!');
-
         // Save the access token so that it's used in future calls
         spotifyApi.setAccessToken(data.body['access_token']);
+        // Re-save the amount of seconds until the access token expired
+        tokenExpirationEpoch = (new Date().getTime() / 1000) + data.body['expires_in'];
+        // Re-set the timePassed variable
+        timePassed = 0;
       }, function(err) {
         console.log('Could not refresh access token', err);
       });
