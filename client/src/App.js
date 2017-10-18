@@ -67,6 +67,9 @@ class App extends Component {
     return (
       <div className="app">
         <div className="app-header">
+          <div className='nav-header'>
+            Welcome to My Spotify Wall
+          </div>
           <div className="app-nav">
             <div
               className={this.state.currentFilter === 1 ? "nav-item screen1 activeItem" : "nav-item screen1"}
