@@ -14,10 +14,11 @@ const dev = app.get('env') !== 'production'; // so test or development environme
 
 // change the redirectURL depending on production or development environment
 let redirectURL;
-
+let redirectCallbackURL;
 // Production setting
 if(!dev) {
   redirectURL = 'https://spotify-wall.herokuapp.com/callback/';
+  redirectCallbackURL = path.join(__dirname, '/client/build/index.html');
   app.disable('x-powered-by');
   app.use(compression());
   app.use(morgan('common'));
@@ -26,12 +27,15 @@ if(!dev) {
   app.use(express.static(path.join(__dirname, 'client/build/static')));
   // on every request that comes in.
   app.get('*', (req, res) =>{
-    res.sendFile(path.join(__dirname, '/client/build/index.html'))
+    // res.sendFile(path.join(__dirname, '/client/build/index.html'))
+    res.sendFile(redirectCallbackURL)
   })
 }
+
 // Development settings
 if(dev){
   redirectURL = 'http://localhost:8888/callback/';
+  redirectCallbackURL = 'http://localhost:3000/';
   app.use(morgan('dev'))
 }
 
@@ -55,6 +59,7 @@ app.get('/', (req, res) => {
   console.log(authorizeURL);
   res.redirect(authorizeURL);
 });
+
 // 1) Need to first GET an access and refresh token. Then can use the refresh token to obtain new access token when
 //    the access token expires (which is 3600 sec or one hour)
 app.get('/callback', function(req, res) {
@@ -77,7 +82,7 @@ app.get('/callback', function(req, res) {
     })
     .then(function(){
       console.log("2nd then!!!!!");
-      res.redirect(path.join(__dirname+'/client/build/index.html'));
+      res.redirect(redirectCallbackURL);
     });
 });
 

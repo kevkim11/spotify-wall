@@ -68,7 +68,9 @@ class App extends Component {
       <div className="app">
         <div className="app-header">
           <div className='nav-header'>
-            Welcome to My Spotify Wall
+          <h1>
+            MY SPOTIFY WALL
+          </h1>
           </div>
           <div className="app-nav">
             <div

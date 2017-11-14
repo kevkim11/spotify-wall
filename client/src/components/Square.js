@@ -29,15 +29,21 @@ function createImgUrl(props) {
   return props.item.album.images[1].url
 }
 
+function createSongURL(props) {
+  return props.item.external_urls.spotify
+}
+
 
 function Square(props) {
   /* Square will only show tracks/albums*/
   let artistsName = createArtistsName(props);
   let songName = createSongName(props);
   let imgUrl = createImgUrl(props);
+  let songURL = createSongURL(props);
 
   return (
     <div className="flex-square">
+      <a target="_blank" href={songURL}>
       <img className="track-img" src={imgUrl} alt=""/>
       <div className="overlay">
         <div className="text">
@@ -47,6 +53,7 @@ function Square(props) {
           </div>
         {/*<div className="text">songName: </div>*/}
       </div>
+      </a>
     </div>
   );
 }

@@ -9,7 +9,7 @@ class RecentlyPlayed extends Component {
       requestFailed: false,
       accessToken: ""
     };
-    this.numOfSquare = 36;
+    this.numOfSquare = 50;
   }
 
   componentWillReceiveProps(nextProps) {
