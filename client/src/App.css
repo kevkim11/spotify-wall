@@ -202,6 +202,7 @@ img:hover {
 
 .nav-item:hover {
   /*background-color: yellow;*/
+  cursor: pointer;
   color: yellow;
   font-size: larger;
 }

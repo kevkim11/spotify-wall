@@ -10,7 +10,8 @@ class TopTracks extends Component {
       requestFailed: false,
       accessToken: ""
     };
-    this.numOfSquare = 36
+    this.numOfSquare = 36;
+    this.time_range = 'short_term'; // can be short_term, medium_term, long_term (default is medium_term)
   }
 
   componentWillReceiveProps(nextProps) {
@@ -22,7 +23,7 @@ class TopTracks extends Component {
 
     // 2) GET recently-played using fetch
     const BASE_URL = 'https://api.spotify.com/v1/me/'; //https://api.spotify.com/v1/albums/
-    const FETCH_URL = BASE_URL + `top/tracks?limit=${this.numOfSquare}`;
+    const FETCH_URL = BASE_URL + `top/tracks?limit=${this.numOfSquare}&time_range=${this.time_range}`;
 
     var myOptions = {
       method: 'GET',
@@ -55,7 +56,7 @@ class TopTracks extends Component {
   componentDidMount() {
     // Global Variables
     const BASE_URL = 'https://api.spotify.com/v1/me/'; //https://api.spotify.com/v1/albums/
-    const FETCH_URL = BASE_URL + `top/tracks?limit=${this.numOfSquare}`;
+    const FETCH_URL = BASE_URL + `top/tracks?limit=${this.numOfSquare}&time_range=${this.time_range}`;
     var myOptions = {
       method: 'GET',
       headers: {
