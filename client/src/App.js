@@ -22,7 +22,8 @@ class App extends Component {
     super(props);
     this.state = {
       currentFilter: 1,
-      accessToken: ""
+      accessToken: "",
+      interval: null
     };
   }
 
@@ -46,7 +47,12 @@ class App extends Component {
   }
 
   componentDidMount() {
-    this.getTokens()
+    this.getTokens();
+    this.interval = setInterval(()=>this.getTokens(), 5000);
+  }
+
+  componentWillUnmount () {
+    clearInterval(this.interval)
   }
 
   updateScreen(newCurrentScreen) {
@@ -100,38 +106,3 @@ class App extends Component {
   }
 }
 export default App;
-
-// class Wall extends Component {
-//   constructor(props) {
-//     super(props);
-//     // this.state = {
-//     //   currentItemList: props.itemList,
-//     // };
-//     // let itemList = props.itemList
-//     // this.numOfSquare = 30; //numOfAlbums to retrieve. Max=50
-//     // this.time_range = 'short_term'
-//   }
-//
-//   // componentDidMount(props) {
-//   //   // Why fetch in componentDidMount --> https://daveceddia.com/where-fetch-data-componentwillmount-vs-componentdidmount/
-//   //   // console.log('this.state', this.state);
-//   //   var accessToken = 'BQAJktMR5guiXK0Da2GYZ5cEQvQhX3fVLiwQaymx90peOuT5dpqABNfIBs4ZpZw0ousMk26_ulkoQyr2Kr8j3BguL1Pvvofd3RbrWMP68C46eBRkfC-I_zOh5qPatVfog8Zd6b4Wqfba1hHWNxkF47HYa-4r4D9rsy8sbowpfdGA-cGrzLc&refresh_token=AQC3Cv2BAO1TqIyhSWQ6ojjqwH3hRxT-8URgsRzPXUf8E5pYqmFSBuH5EUFuPtb2M-KGenc-9pkcViKpGxKJDfiJ2S8mOUypVgCCS2tcCQtxvgEbQh7gYpJBER-ic4OJaxE';
-//   //   // this.getUserSongs(accessToken)
-//   //   // this.getUserAlbums(accessToken)
-//   //   this.getUserTopTracks(accessToken)
-//   // }
-//
-//   render() {
-//     let itemNodes = this.props.itemList.map((item, i) => {
-//       return (
-//         <Square item={item} key={i}/>
-//       )
-//     });
-//     if(this.props.itemList.length === 0){return <p> {'loading...'} </p>}
-//     return (
-//       <div className="flex-container wrap">
-//         {itemNodes}
-//       </div>
-//     )
-//   }
-// }
