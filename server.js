@@ -57,7 +57,7 @@ const port = process.env.PORT || 8888;
 // Serve static files from the React app
 
 var spotifyApi = new SpotifyWebApi(credentials);
-var tokenExpirationEpoch;
+// var tokenExpirationEpoch;
 
 // app.get('/', (req, res) => {
 //   // When our access token will expire
