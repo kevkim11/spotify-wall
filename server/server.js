@@ -18,16 +18,16 @@ let redirectCallbackURL;
 // Production setting
 if(!dev) {
   redirectURL = 'https://spotify-wall.herokuapp.com/callback/';
-  redirectCallbackURL = path.join(__dirname, '/client/build/index.html');
+  redirectCallbackURL = path.join(__dirname, '/react-ui/build/index.html');
   app.disable('x-powered-by');
   app.use(compression());
   app.use(morgan('common'));
   // The production static files will be in the build directory of the react app
   // app.use(express.static(path.resolve(__dirname, 'build')));
-  app.use(express.static(path.join(__dirname, 'client/build/static')));
+  app.use(express.static(path.join(__dirname, 'react-ui/build/static')));
   // on every request that comes in.
   app.get('*', (req, res) =>{
-    // res.sendFile(path.join(__dirname, '/client/build/index.html'))
+    // res.sendFile(path.join(__dirname, '/react-ui/build/index.html'))
     res.sendFile(redirectCallbackURL)
   })
 }
@@ -80,7 +80,7 @@ app.get('/callback', function(req, res) {
       spotifyApi.setRefreshToken(data.body['refresh_token']);
       // Save the amount of seconds until the access token expired
       tokenExpirationEpoch = (new Date().getTime() / 1000) + data.body['expires_in'];
-      // Send data to the client.
+      // Send data to the react-ui.
       // res.json(data);
       console.log('Retrieved token. It expires in ' + Math.floor(tokenExpirationEpoch - new Date().getTime() / 1000) + ' seconds!');
     }, function(err) {
@@ -137,13 +137,13 @@ let timePassed = 0;
 //   timePassed += 1;
 // }, 1000);
 
-app.use(express.static(path.join(__dirname, '/client/build')));
+app.use(express.static(path.join(__dirname, '/react-ui/build')));
 // The "catchall" handler: for any request that doesn't
 // match one above, send back React's index.html file.
 
 app.use('/dist', express.static(path.join(__dirname, 'dist')));
 // app.get('*', (req, res) => {
-//   res.sendFile(path.join(__dirname+'/client/build/index.html'));
+//   res.sendFile(path.join(__dirname+'/react-ui/build/index.html'));
 // });
 
 app.listen(port);

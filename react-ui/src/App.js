@@ -48,7 +48,7 @@ class App extends Component {
 
   componentDidMount() {
     this.getTokens();
-    this.interval = setInterval(()=>this.getTokens(), 5000);
+    this.interval = setInterval(()=>this.getTokens(), 3500000);
   }
 
   componentWillUnmount () {

@@ -4,14 +4,26 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node server.js",
-    "heroku-postbuild": "cd client && npm install && npm run build"
+    "start": "node server",
+    "heroku-postbuild": "cd react-ui/ && npm install && npm install --only=dev --no-shrinkwrap && npm run build"
   },
+  "engines": {
+    "node": "6.11.x"
+  },
+  "cacheDirectories": [
+    "node_modules",
+    "react-ui/node_modules"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/kevkim11/spotify-wall.git"
   },
-  "keywords": [],
+  "keywords": [
+    "node",
+    "heroku",
+    "create-react-app",
+    "react"
+  ],
   "author": "",
   "license": "ISC",
   "bugs": {
