@@ -34,7 +34,6 @@ class TopArtists extends Component {
       })
       .then(response => response.json())
       .then(json => {
-        console.log(json);
         const songList = json.items;
         this.setState({currentItemList: songList});
         this.setState({requestFailed: false});
