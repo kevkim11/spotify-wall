@@ -1,40 +1,17 @@
 {
-  "name": "spotify-wall",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "start": "node server",
-    "heroku-postbuild": "cd react-ui/ && npm install && npm install --only=dev --no-shrinkwrap && npm run build"
-  },
-  "engines": {
-    "node": "6.11.x"
-  },
-  "cacheDirectories": [
-    "node_modules",
-    "react-ui/node_modules"
-  ],
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/kevkim11/spotify-wall.git"
-  },
-  "keywords": [
-    "node",
-    "heroku",
-    "create-react-app",
-    "react"
-  ],
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/kevkim11/spotify-wall/issues"
-  },
-  "homepage": "https://github.com/kevkim11/spotify-wall#readme",
+  "name": "client",
+  "version": "0.1.0",
+  "private": true,
   "dependencies": {
-    "compression": "^1.7.1",
-    "express": "^4.16.2",
-    "morgan": "^1.9.0",
-    "path": "^0.12.7",
-    "spotify-web-api-node": "^2.5.0"
-  }
+    "react": "^16.0.0",
+    "react-dom": "^16.0.0",
+    "react-scripts": "1.0.14"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  },
+  "proxy": "http://localhost:8888"
 }
