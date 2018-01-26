@@ -31,7 +31,9 @@ class App extends Component {
   }
 
   getTokens() {
-    fetch('/api/spotify')
+    // TODO fetchURL = process.env.BACKEND_URL
+    let fetchURL = 'https://my-spotify-api.herokuapp.com/api/spotify';
+    fetch(fetchURL)
       .then(response => {
         if(!response.ok){
           console.log(response);
