@@ -36,7 +36,7 @@ class App extends Component {
     fetch(fetchURL)
       .then(response => {
         if(!response.ok){
-          console.log(response);
+          // console.log(response);
           console.log("Hello there");
           throw Error("Request to /api/spotify failed")
         }
