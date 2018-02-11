@@ -1,206 +1,286 @@
 body {
-  margin: 0;
-  padding: 0;
+    margin: 0;
+    padding: 0;
 }
 
 p {
-  color: white;
+    color: white;
 }
 
 .flex-container {
-  flex-direction: row;
-  flex-wrap: wrap;
-  align-content: flex-start;
-  justify-content: center; /* center */
-  background-color: black;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    justify-content: center; /* center */
+    background-color: black;
 
-  -ms-box-orient: horizontal;
-  display: -webkit-box;
-  display: -moz-box;
-  display: -ms-flexbox;
-  display: -moz-flex;
-  display: -webkit-flex;
-  display: flex;
+    -ms-box-orient: horizontal;
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -moz-flex;
+    display: -webkit-flex;
+    display: flex;
 }
 
 .flex-square {
-  position: relative;
-  height: 200px;
-  width: 200px;
-  box-sizing: border-box;
-  /*border: 1px solid black;*/
-  /* X's and O's */
-  font-size: 5em;
+    position: relative;
+    height: 200px;
+    width: 200px;
+    box-sizing: border-box;
+    /*border: 1px solid black;*/
+    /* X's and O's */
+    font-size: 5em;
 
-  /*margin: auto 0;*/
+    /*margin: auto 0;*/
 
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
 
-  /*background-size: contain;*/
-  /*position: relative;*/
-  /*border-color: white;*/
+    /*background-size: contain;*/
+    /*position: relative;*/
+    /*border-color: white;*/
 }
 
+/* Alignment per row */
+/*.flex-container--top {*/
+    /*align-items: flex-start;*/
+/*}*/
+
+/*.flex-container--bottom {*/
+    /*align-items: flex-end;*/
+/*}*/
+
+/*.flex-container--center {*/
+    /*align-items: center;*/
+/*}*/
+
+/* Alignment per cell */
+/*.flex-container-cell--top {*/
+    /*align-self: flex-start;*/
+/*}*/
+
+/*.Grid-cell--bottom {*/
+    /*align-self: flex-end;*/
+/*}*/
+
+/*.Grid-cell--center {*/
+    /*align-self: center;*/
+/*}*/
+
+/* Base classes for all media */
+/*.--fit > .flex-square {*/
+    /*flex: 1;*/
+/*}*/
+/*.flex-container--full > .flex-square {*/
+    /*flex: 0 0 100%;*/
+/*}*/
+/*.flex-container--1of2 > .flex-square {*/
+    /*flex: 0 0 50%*/
+/*}*/
+/*.flex-container--1of3 > .flex-square {*/
+    /*flex: 0 0 33.3333%*/
+/*}*/
+/*.flex-container--1of4 > .flex-square {*/
+    /*flex: 0 0 25%*/
+/*}*/
+
+/*!* Small to medium screens *!*/
+/*@media (min-width: 24em) {*/
+    /*.small-flex-container--fit > .flex-square {*/
+        /*flex: 1;*/
+    /*}*/
+    /*.small-flex-container--full > .flex-square {*/
+        /*flex: 0 0 100%;*/
+    /*}*/
+    /*.small-flex-container--1of2 > .flex-square {*/
+        /*flex: 0 0 50%*/
+    /*}*/
+    /*.small-flex-container--1of3 > .flex-square {*/
+        /*flex: 0 0 33.3333%*/
+    /*}*/
+    /*.small-flex-container--1of4 > .flex-square {*/
+        /*flex: 0 0 25%*/
+    /*}*/
+/*}*/
+
+/*!* Large screens *!*/
+/*@media (min-width: 48em) {*/
+    /*.large-flex-container--fit > .flex-square {*/
+        /*flex: 1;*/
+    /*}*/
+    /*.large-flex-container--full > .flex-square {*/
+        /*flex: 0 0 100%;*/
+    /*}*/
+    /*.large-flex-container--1of2 > .flex-square {*/
+        /*flex: 0 0 50%*/
+    /*}*/
+    /*.large-flex-container--1of3 > .flex-square {*/
+        /*flex: 0 0 33.3333%*/
+    /*}*/
+    /*.large-flex-container--1of4 > .flex-square {*/
+        /*flex: 0 0 25%*/
+    /*}*/
+/*}*/
 
 .wrap {
-  -webkit-flex-wrap: wrap;
-  flex-wrap: wrap;
+    -webkit-flex-wrap: wrap;
+    flex-wrap: wrap;
 }
 
 .flex-square:hover {
-  cursor: pointer;
-  /*background-color: #80cd92;*/
+    cursor: pointer;
+    /*background-color: #80cd92;*/
 }
 
 .flex-square .track-img {
-  display: block;
-  flex-shrink: 0;
-  max-width: 100%;
-  max-height: 100%;
+    display: block;
+    flex-shrink: 0;
+    max-width: 100%;
+    max-height: 100%;
 }
 
 .flex-square .artist-img-wide {
-  display: block;
-  /*width: 100%;*/
-  /*!*max-height: 100%;*!*/
-  /*height: auto;*/
-  flex-shrink: 0;
-  /*max-width: 100%;*/
-  max-height: 100%;
+    display: block;
+    /*width: 100%;*/
+    /*!*max-height: 100%;*!*/
+    /*height: auto;*/
+    flex-shrink: 0;
+    /*max-width: 100%;*/
+    max-height: 100%;
 }
 
 .flex-square .artist-img-tall {
-  display: block;
-  /*width: 100%;*/
-  /*!*max-height: 100%;*!*/
-  /*height: auto;*/
-  flex-shrink: 0;
-  /*max-width: 100%;*/
-  max-width: 100%;
+    display: block;
+    /*width: 100%;*/
+    /*!*max-height: 100%;*!*/
+    /*height: auto;*/
+    flex-shrink: 0;
+    /*max-width: 100%;*/
+    max-width: 100%;
 }
-
-
 
 img:hover {
 
-  opacity: 0.5;
-  filter: alpha(opacity=100); /* For IE8 and earlier */
+    opacity: 0.5;
+    filter: alpha(opacity=100); /* For IE8 and earlier */
 }
 
 /*
   Perfect blur effects. https://codepen.io/mcraig218/pen/uqIae
 */
 .overlay {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 100%;
-  width: 100%;
-  opacity: 0;
-  transition: .5s ease;
-  background-color: white;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    width: 100%;
+    opacity: 0;
+    transition: .5s ease;
+    background-color: white;
 }
+
 .flex-square:hover .overlay {
-  opacity: 0.5;
+    opacity: 0.5;
 }
 
 .text {
-  color: black;
-  font-size: 20px;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  -ms-transform: translate(-50%, -50%);
-  /*text-align: end;*/
+    color: black;
+    font-size: 20px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    /*text-align: end;*/
 }
 
 .track-name {
-  font-size: 12px;
+    font-size: 12px;
 }
 
 .artist-name {
-  font-size: 12px;
-  font-weight:bold;
+    font-size: 12px;
+    font-weight: bold;
 }
 
 /**********************/
 
 .app-header {
-  /*height: 60px;*/
-  width: 100%;
+    /*height: 60px;*/
+    width: 100%;
 }
 
 .nav-header {
-  width: 100%;
-  height: 100px;
-  background-color: black;
-  text-align: center;
-  /*Have like a background image and have some opacity*/
+    width: 100%;
+    height: 100px;
+    background-color: black;
+    text-align: center;
+    /*Have like a background image and have some opacity*/
 }
+
 .nav-header h1 {
-  color: white;
-  margin: 0;
-  padding: 0;
+    color: white;
+    margin: 0;
+    padding: 0;
 }
 
 .app-wrapper {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: stretch;
-  min-height: 1000px;
-  height: 100%;
-  background-color: black;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: stretch;
+    min-height: 1000px;
+    height: 100%;
+    background-color: black;
 }
 
 .app-nav {
-  /*width: 60px;*/
-  background-color: blue;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-content: stretch;
-  /*Flex box property*/
-  align-items: stretch;
-  align-content: stretch;
+    /*width: 60px;*/
+    background-color: blue;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-content: stretch;
+    /*Flex box property*/
+    align-items: stretch;
+    align-content: stretch;
 }
 
 .nav-item {
-  height: 30px;
-  background-color: #2ebd59;
-  /*cursor: pointer;*/
-  text-align: center;
+    height: 30px;
+    background-color: #2ebd59;
+    /*cursor: pointer;*/
+    text-align: center;
 
-  flex: 1 1 auto;
-  align-self: stretch;
+    flex: 1 1 auto;
+    align-self: stretch;
 }
 
 .nav-item span {
-  color: white;
+    color: white;
 }
 
 .nav-item.activeItem {
-  background-color: black;
+    background-color: black;
 }
 
 .nav-item.activeItem span {
-  color: #2ebd59;
+    color: #2ebd59;
 }
 
 .nav-item:hover {
-  /*background-color: yellow;*/
-  cursor: pointer;
-  color: yellow;
-  font-size: larger;
+    /*background-color: yellow;*/
+    cursor: pointer;
+    color: yellow;
+    font-size: larger;
 }
 
 .main-content {
-  flex: 1;
-  background-color: black;
+    flex: 1;
+    background-color: black;
 }

@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import Table from "../components/Table";
+import Tablelist from "../components/List";
 
 class RecentlyPlayed extends Component {
   constructor(props){
@@ -47,10 +48,14 @@ class RecentlyPlayed extends Component {
   }
 
   render() {
-    return(<Table
-            currentItemList={this.state.currentItemList}
-            currentFilter={1}
-          />)
+    // return(<Table
+            {/*currentItemList={this.state.currentItemList}*/}
+            {/*currentFilter={1}*/}
+          {/*/>)*/}
+    return(<Tablelist
+      currentItemList={this.state.currentItemList}
+      currentFilter={1}
+    />)
   }
 }
 
